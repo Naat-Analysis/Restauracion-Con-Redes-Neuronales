@@ -14,4 +14,14 @@ def nueve_plot(files: list):
         ax.set_axis_off()
     plt.show()
 
-def redimensionar(ruta, alto, ancho)
+def redimensionar(files: list, ancho, alto):
+    for file in files:
+        imagen = load_img(str(file))
+        imagen_red = imagen.resize((ancho, alto))
+        
+        nueva_ruta = file.parent.parent.joinpath('Red',file.name)
+        imagen_red.save(str(nueva_ruta))
+    print('Redimension exitosa')
+        
+
+    
