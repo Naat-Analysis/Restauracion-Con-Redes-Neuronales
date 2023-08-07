@@ -5,7 +5,8 @@
 # gitignore template for Jupyter Notebooks
 # website: http://jupyter.org/
 
-data/defectos
+data/manchas/*
+
 
 .ipynb_checkpoints
 */.ipynb_checkpoints/*

@@ -12,8 +12,8 @@ class Impresion:
         self.imagen = Image.open(dir)
      
     def coordenas_random(self):
-        coor = [random.randint(50, 1400), random.randint(50,900)]
-        coor2 =  [coor[0]+random.randint(200,500),coor[1]+random.randint(200,500)]
+        coor = [random.randint(50, 600), random.randint(50,900)]
+        coor2 =  [coor[0]+random.randint(200,250),coor[1]+random.randint(200,500)]
         return coor + coor2       
             
     def recortar(self, coordenadas):
@@ -33,10 +33,10 @@ class Impresion:
     def hacer_impresiones(self, recorte: Image, coordenadas: list):
         imagen_original = self.imagen
         recorte = recorte
-        posicion_x = coordenadas[0]+random.randint(-50,50)
-        posicion_y = coordenadas[1]+random.randint(-50,50)
+        posicion_x = coordenadas[0]+random.randint(-60,60)
+        posicion_y = coordenadas[1]+random.randint(-60,60)
         alpha = 0.5
-        angulo_rotacion = random.randint(-1,1)
+        angulo_rotacion = random.randint(-2,2)
         recorte = recorte.rotate(angulo_rotacion, expand=True)
         
         recorte = recorte.convert("RGBA")
