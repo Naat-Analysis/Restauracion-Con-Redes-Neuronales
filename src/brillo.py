@@ -6,6 +6,26 @@ import matplotlib.pyplot as plt
 tool = impresiones.Impresion()
 
 def colores(direccion: str):
+    """Usamos esta función para extraer el color del fondo de la imagen y el color de las letras.
+    
+    Para esto, hacemos lo siguiente:
+    1. Divimos el proceso en dos partes, la parte del fondo y la parte de las letras.
+    2. Para la parte del fondo, analizamos cada uno de los canales de la imagen, ya que 
+        esta en rgb, tomamos el valor que mas se repite, y de los 3 encontramos el color
+        mas aproximado al fondo y lo guardamos
+    3. Analizamos los valores minimos de cada canal y tomamos estos, ya que por el tipo de imagen
+        que estamos manejando conocemos que los valores minimos representan las letras, y tomamos 10
+        muestras, sacamos el promedio y encontramos un valor proximo al color de las letras
+
+    Args:
+        direccion (str): Ruta del archivo del cual se van a extraer la media de los colores, en este caso 
+                        debe ser del tipo str
+        
+
+    Returns:
+        color_rbg: representa una matriz 1x3 con la información del color de fondo
+        color_rbg2: representa una matriz 1x3 con la información del color de la letras
+    """
     tool.direccion(direccion)
     
     rojo, azul, verde = 0, 0, 0
@@ -37,6 +57,17 @@ def colores(direccion: str):
     return color_rgb, color_rgb2
 
 def modicacion(direccion: str):
+    """Crea un efecto de perdida de color en las letras.
+    
+    Esta función modifica el color de las letras agregando un efecto de "perdida de tinta",
+    para hacer esto toma el color de la tinta y lo cambia por un color parecido al del fondo
+
+    Args:
+        direccion (str):Ruta del archivo del cual se van a extraer la media de los colores, en este caso 
+                        debe ser del tipo str
+    Returns:
+        modificado: es la imagen dentro de una variable modificada
+    """
     color_rgb, color_rgb2 = colores(direccion)
     tool.direccion(direccion)
     imagen_array = np.array(tool.imagen)
