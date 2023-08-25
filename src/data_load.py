@@ -1,9 +1,10 @@
 import numpy as np
 import tensorflow as tf
 from keras.utils import Sequence
+from keras.preprocessing.image import ImageDataGenerator
 
 class CustomImageDataGenerator(Sequence):
-    def __init__(self, image_paths_noisy, image_paths_clean , batch_size, target_size, class_mode='input',shuffle=True):
+    def __init__(self, image_paths_noisy, image_paths_clean , batch_size, target_size, class_mode='input',shuffle=True, datagen_args=None):
         self.image_paths_noisy = image_paths_noisy
         self.image_paths_clean = image_paths_clean
         self.batch_size = batch_size
@@ -11,6 +12,12 @@ class CustomImageDataGenerator(Sequence):
         self.class_mode = class_mode
         self.shuffle = shuffle
         self.on_epoch_end()
+        
+        
+        self.datagen_args = datagen_args if datagen_args else {}
+        self.datagen = ImageDataGenerator(**self.datagen_args)
+        #self.image_x_datagen = ImageDataGenerator(**self.datagen_args)
+        #self.image_y_datagen = ImageDataGenerator(**self.datagen_args)
 
     def __len__(self):
         if len(self.image_paths_clean)==len(self.image_paths_noisy):
@@ -26,7 +33,14 @@ class CustomImageDataGenerator(Sequence):
         x = [self.load_and_preprocess_image(str(file)) for file in batch_files_noisy]
 
         if self.class_mode == 'input':
-            return np.array(x), np.array(y)  # Devolver imágenes de entrada y salida iguales
+            #return np.array(x), np.array(y)  # Devolver imágenes de entrada y salida iguales
+            seed = np.random.randint(1, 1000)
+            X = self.datagen.flow(np.array(x), batch_size=self.batch_size, seed=seed).next()
+            y = self.datagen.flow(np.array(y), batch_size=self.batch_size, seed=seed).next()
+
+            #return self.datagen.flow(np.array(x), np.array(y), batch_size=self.batch_size).next()
+            return X,y
+        
         elif self.class_mode == 'output':
             return np.array(x)  # Devolver solo las imágenes de salida (limpias)
         else:
